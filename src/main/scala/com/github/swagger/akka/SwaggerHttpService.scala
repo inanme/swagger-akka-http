@@ -19,6 +19,7 @@ import com.github.swagger.akka.model.{Info, mapAsScala, scala2swagger}
 import io.swagger.jaxrs.Reader
 import io.swagger.jaxrs.config.DefaultReaderConfig
 import io.swagger.models.auth.SecuritySchemeDefinition
+import io.swagger.models.properties._
 import io.swagger.models.{ExternalDocs, Scheme, Swagger}
 import io.swagger.util.{Json, Yaml}
 import org.apache.commons.lang3.StringUtils
@@ -102,6 +103,27 @@ trait SwaggerGenerator {
     if (!unwantedDefinitions.isEmpty) {
       swagger.setDefinitions(asJavaMutableMap(
         mapAsScala(swagger.getDefinitions).filterKeys(definitionName => !unwantedDefinitions.contains(definitionName))))
+    }
+    mapAsScala(swagger.getDefinitions).get("ListReply").foreach { defn =>
+      val props = mapAsScala(defn.getProperties)
+      println(">>>>>>> ListReply keys " + props.keys.toSeq)
+      props.get("items").foreach { itemsProp =>
+        itemsProp match {
+          case ap: ArrayProperty => {
+            println(">>>>>>> ListReply items " + ap.getItems)
+            ap.getItems match {
+              case op: ObjectProperty => {
+                println(">>>>>>> op.getProperties " + op.getProperties)
+                println(">>>>>>> op.getRequiredProperties " + op.getRequiredProperties)
+                println(">>>>>>> op.getReadOnly " + op.getReadOnly)
+                println(">>>>>>> op " + Json.mapper().writeValueAsString(op))
+              }
+              case default => println(">>>>>>> unexpected objectProp " + default)
+            }
+          }
+          case default => println(">>>>>>> unexpected itemProp " + default)
+        }
+      }
     }
     swagger
   }
