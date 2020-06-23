@@ -24,7 +24,7 @@ import akka.stream.ActorMaterializer
 import io.swagger.annotations._
 import io.swagger.jaxrs.config.ReaderConfig
 import scala.reflect.runtime.universe._
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 case class Dog(breed: String)
 
