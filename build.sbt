@@ -9,7 +9,7 @@ crossScalaVersions := Seq("2.13.2", "2.12.11")
 val akkaVersion = "2.6.5"
 val swaggerVersion = "1.5.13"
 val akkaHttpVersion = "10.1.12"
-val jacksonVersion = "2.8.8"
+val jacksonVersion = "2.9.9"
 val slf4jVersion = "1.7.22"
 
 checksums in update := Nil
@@ -48,13 +48,7 @@ logBuffered := false
 
 publishMavenStyle := true
 
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  if (isSnapshot.value)
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-}
+publishTo := sonatypePublishToBundle.value
 
 publishArtifact in Test := false
 
