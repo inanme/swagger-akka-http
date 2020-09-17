@@ -24,9 +24,8 @@ class SwaggerHttpServiceSpec
     system.terminate()
   }
 
-  val swaggerService = new SwaggerHttpService with HasActorSystem {
-    override implicit val actorSystem: ActorSystem = system
-    override implicit val materializer: ActorMaterializer = myMaterializer
+  val swaggerService = new SwaggerHttpService {
+    implicit val actorSystem: ActorSystem = system
     override val apiTypes = Seq(typeOf[PetHttpService], typeOf[UserHttpService])
     override val basePath = "api"
     override val apiDocsPath = "api-doc"
@@ -126,9 +125,8 @@ class SwaggerHttpServiceSpec
     }
 
     "defining an apiDocsPath" should {
-      def swaggerService(testPath: String) = new SwaggerHttpService with HasActorSystem {
-        override implicit val actorSystem: ActorSystem = system
-        override implicit val materializer: ActorMaterializer = myMaterializer
+      def swaggerService(testPath: String) = new SwaggerHttpService {
+        implicit val actorSystem: ActorSystem = system
         override val apiTypes = Seq(typeOf[UserHttpService])
         override val apiDocsPath = testPath
       }
@@ -153,9 +151,8 @@ class SwaggerHttpServiceSpec
     }
 
     "not defining a host" should {
-      val swaggerService = new SwaggerHttpService with HasActorSystem {
-        override implicit val actorSystem: ActorSystem = system
-        override implicit val materializer: ActorMaterializer = myMaterializer
+      val swaggerService = new SwaggerHttpService {
+        implicit val actorSystem: ActorSystem = system
         override val apiTypes = Seq(typeOf[UserHttpService])
       }
       "have swagger config with null host" in {
@@ -164,9 +161,8 @@ class SwaggerHttpServiceSpec
     }
 
     "defining a host" should {
-      def swaggerService(testHost: String) = new SwaggerHttpService with HasActorSystem {
-        override implicit val actorSystem: ActorSystem = system
-        override implicit val materializer: ActorMaterializer = myMaterializer
+      def swaggerService(testHost: String) = new SwaggerHttpService {
+        implicit val actorSystem: ActorSystem = system
         override val apiTypes = Seq(typeOf[UserHttpService])
         override val host = testHost
       }

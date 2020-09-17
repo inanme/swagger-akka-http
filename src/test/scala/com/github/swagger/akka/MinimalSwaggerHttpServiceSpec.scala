@@ -22,9 +22,8 @@ class MinimalSwaggerHttpServiceSpec
     system.terminate()
   }
 
-  val swaggerService = new SwaggerHttpService with HasActorSystem {
-    override implicit val actorSystem: ActorSystem = system
-    override implicit val materializer: ActorMaterializer = myMaterializer
+  val swaggerService = new SwaggerHttpService {
+    implicit val actorSystem: ActorSystem = system
     override val apiTypes = Seq(typeOf[PetHttpService], typeOf[UserHttpService])
   }
 

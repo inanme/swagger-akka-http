@@ -29,9 +29,8 @@ import scala.collection.JavaConverters._
 case class Dog(breed: String)
 
 class NestedService(system: ActorSystem) {self =>
-  val swaggerService = new SwaggerHttpService with HasActorSystem {
+  val swaggerService = new SwaggerHttpService {
     implicit val actorSystem = system
-    implicit val materializer: ActorMaterializer = ActorMaterializer()
 
     override val apiTypes = Seq(typeOf[Dogs.type])
     override val host = "some.domain.com"
